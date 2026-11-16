@@ -1,0 +1,88 @@
+import time
+import random 
+import numpy as np
+import tkinter as tk
+delta = 0
+gravity = (0,-1)
+global background
+background = np.zeros((30,30),int)
+window = tk.Tk()
+window.geometry("500x500")
+array_textbox = tk.Text(
+    window,
+    width=800,
+    height=600,
+    bg="white",
+    fg="black"
+)
+array_textbox.pack(fill="both", expand=True)
+array_textbox.insert("1.0", np.array2string(background))
+
+
+def render(beg,ol,delta):
+    print(f'frame:{delta}')
+    delta += 1
+    initialize(ol,beg)
+    array_textbox.delete("1.0", tk.END)
+    array_textbox.insert("1.0", np.array2string(beg))
+    time.sleep(0.5)
+    window.update()
+    render(beg,ol,delta)
+class _object:
+    def __init__(self,center,xdim,ydim,velocity):
+        self.center = center
+        self.xdim = xdim
+        self.ydim = ydim
+        self.velocity = velocity
+obj1 = _object([5,10],2,2,[0,0])
+objectlist = []
+objectlist.append(obj1)
+def initialize(ol,back):
+    for item in ol:
+        xfill = [item.center[1] - item.xdim,item.center[1] + item.xdim]
+        yfill = [item.center[0] - item.ydim,item.center[0] + item.ydim]
+        back[xfill[1]:xfill[0], yfill[1]:yfill[0]] += 1
+        return back
+background = initialize(objectlist,background)
+render(background,objectlist,delta)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
